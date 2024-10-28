@@ -1,11 +1,72 @@
 /* By Boujjou Achraf*/
 
 /*basic reset */
-            
-*{
+          
+/* General Reset */
+* {
     margin: 0;
     padding: 0;
-}
+    box-sizing: border-box;
+  }
+  
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    background-color: #000;
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  
+  nav {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  nav a {
+    color: #fff;
+    margin: 0 15px;
+    text-decoration: none;
+    font-size: 1.2em;
+  }
+  
+  section {
+    text-align: center;
+    margin-top: 20px;
+    width: 80%;
+  }
+  
+  section h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
+  }
+  
+  section p {
+    font-size: 1.1em;
+    line-height: 1.6;
+  }
+  
+    footer {
+        margin-top: auto;
+        text-align: center;
+        padding: 10px;
+        background-color: #333;
+        width: 100%;
+    }
 
-body {background: black;}
-canvas {display:block;}
+    footer p {
+        font-size: 0.8em;
+        color: #fff;
+    }
+
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    
