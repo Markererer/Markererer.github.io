@@ -1,0 +1,59 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #000;
+    font-family: Arial, sans-serif;
+    color: #fff;
+  }
+  
+  nav a {
+    color: #fff;
+    margin: 0 15px;
+    text-decoration: none;
+    font-size: 1.2em;
+  }
+  
+  .cube-container {
+    width: 100vw;
+    height: 80vh;
+    position: relative;
+  }
+  
+  .cube {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    transform-style: preserve-3d;
+  }
+  
+  .cube-face {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    border: 2px solid white;
+  }
+  
+  .front { transform: translateZ(75px); }
+  .back { transform: rotateY(180deg) translateZ(75px); }
+  .left { transform: rotateY(-90deg) translateZ(75px); }
+  .right { transform: rotateY(90deg) translateZ(75px); }
+  .top { transform: rotateX(90deg) translateZ(75px); }
+  .bottom { transform: rotateX(-90deg) translateZ(75px); }
+  
