@@ -10,6 +10,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/gallery.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 	</head>
 	<body class="is-preload">
@@ -19,8 +20,9 @@
 
 				<!-- Intro -->
 					<div id="intro">
-						<h1>Welcome</h1>
-						<p>Hi - my name is Mark.<br />
+						<div class="bg-carousel" aria-hidden="true"></div>
+						<h1>Hi</h1>
+						<p>my name is Mark.<br />
 						Working with data📊 is my passion.<br />
 						I have graduated <a href="https://en.itu.dk/Programmes/BSc-Programmes/Data-Science">Bachelor of Science in Data Science</a> at <a href="https://en.itu.dk/">ITU</a>.  <br />
 						In my academic journey I worked on many projects. You can check out some of them below⬇️.</p>
@@ -84,6 +86,40 @@
 										<li><a href="https://github.com/Markererer/llm2vec" class="button">github</a></li>
 									</ul>
 								</article>
+							</section>
+
+							<!-- Gallery Options -->
+							<section id="gallery-options" class="post">
+								<header class="major">
+									<h2>Photo & Video Gallery — Options</h2>
+									<p>Three gallery designs: responsive grid, autoplay carousel, and fullscreen slideshow (videos autoplay muted).</p>
+								</header>
+								<div class="gallery-controls">
+									<button data-show="option1" class="button">Option 1 — Grid</button>
+									<button data-show="option2" class="button">Option 2 — Carousel</button>
+									<button data-show="option3" class="button">Option 3 — Fullscreen</button>
+								</div>
+
+								<!-- Option 1: Responsive Grid -->
+								<div id="option1" class="gallery-option visible">
+									<div class="grid-gallery" id="gridGallery"></div>
+								</div>
+
+								<!-- Option 2: Carousel -->
+								<div id="option2" class="gallery-option">
+									<div class="carousel" id="carousel">
+										<div class="slides" id="carouselSlides"></div>
+										<div class="carousel-nav">
+											<button id="prev">&#10094;</button>
+											<button id="next">&#10095;</button>
+										</div>
+									</div>
+								</div>
+
+								<!-- Option 3: Fullscreen slideshow -->
+								<div id="option3" class="gallery-option">
+									<div id="fullscreenSlideshow" class="fullscreen-slideshow"></div>
+								</div>
 							</section>
 							<section class="posts">
 							
@@ -207,6 +243,7 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+			<script src="assets/js/gallery.js"></script>
 
 	</body>
 </html>
