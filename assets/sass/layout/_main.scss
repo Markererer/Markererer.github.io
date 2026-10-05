@@ -85,11 +85,21 @@
 			padding: 0;
 
 			> article {
+				@include vendor('display', 'flex');
+				@include vendor('flex-direction', 'column');
 				border-color: _palette(border);
 				border-left-width: 2px;
 				border-style: solid;
 				border-top-width: 2px;
 				text-align: center;
+
+				> .actions.special {
+					margin-top: auto;
+				}
+
+				> .image.fit img {
+					height: auto;
+				}
 
 				> :last-child {
 					margin-bottom: 0;

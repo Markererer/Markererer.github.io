@@ -5,7 +5,7 @@
 (function(){
   let media = []; // Will be populated from media.json
 
-  function isVideo(path){ return /\.(mp4|webm|mov|avi|mkv)$/i.test(path) }
+  function isVideo(path){ return /\.(mp4|webm|mov)$/i.test(path) }
   function isImage(path){ return /\.(jpe?g|png|gif|webp|heic|heif)$/i.test(path) }
 
   // Load media list from media.json
@@ -23,7 +23,13 @@
       wireOptionButtons();
     } catch(err) {
       console.error('Error loading media:', err);
-      document.body.innerHTML = '<p style="color:red; padding:2rem;">Error loading media list. Run: python generate_media_list.py</p>';
+      const intro = document.getElementById('intro');
+      if(intro && !intro.querySelector('.gallery-error')) {
+        const message = document.createElement('p');
+        message.className = 'gallery-error';
+        message.textContent = 'Media gallery unavailable.';
+        intro.appendChild(message);
+      }
     }
   }
 
@@ -50,13 +56,16 @@
   let lb;
   function createLightbox(){
     lb = document.createElement('div'); lb.className='lightbox';
-    lb.innerHTML = '<div class="lightbox-content"></div><button class="close">×</button>';
+    lb.innerHTML = '<div class="lightbox-content"></div><button class="close" aria-label="Close media viewer">×</button>';
     document.body.appendChild(lb);
     lb.querySelector('.close').addEventListener('click', ()=> closeLightbox());
     lb.addEventListener('click', (e)=>{ if(e.target===lb) closeLightbox() });
+    lb.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeLightbox() });
   }
+  let lastFocusedElement;
   function openLightbox(src){
     if(!lb) createLightbox();
+    lastFocusedElement = document.activeElement;
     const content = lb.querySelector('.lightbox-content'); content.innerHTML='';
     if(isVideo(src)){
       const v=document.createElement('video'); v.src=src; v.muted=true; v.autoplay=true; v.loop=true; v.playsInline=true; v.controls=true;
@@ -65,8 +74,13 @@
       const img=document.createElement('img'); img.src=src; content.appendChild(img);
     }
     lb.classList.add('open');
+    lb.querySelector('.close').focus();
   }
-  function closeLightbox(){ if(lb) lb.classList.remove('open'); }
+  function closeLightbox(){
+    if(!lb) return;
+    lb.classList.remove('open');
+    if(lastFocusedElement) lastFocusedElement.focus();
+  }
 
   // Carousel (infinite loop)
   let carouselIndex=0, carouselTimer=null;
@@ -152,7 +166,7 @@
     media.forEach((m)=>{
       const item = document.createElement('div'); item.className='bg-item';
       if(isVideo(m)){
-        const v = document.createElement('video'); v.src=m; v.muted=true; v.autoplay=true; v.loop=true; v.playsInline=true; v.preload='metadata'; v.volume = 0; v.setAttribute('muted',''); v.style.willChange='transform'; item.appendChild(v);
+        const v = document.createElement('video'); v.src=m; v.muted=true; v.loop=true; v.playsInline=true; v.preload='metadata'; v.volume = 0; v.setAttribute('muted',''); v.style.willChange='transform'; item.appendChild(v);
       } else {
         const img = document.createElement('img'); img.src=m; img.alt='bg';
         img.onerror = ()=> { tryImageFallback(m, img) };
@@ -165,6 +179,61 @@
     for(let i=0;i<cloneCount;i++){ track.appendChild(track.children[i].cloneNode(true)); }
     bg.appendChild(track);
     intro.insertBefore(bg, intro.firstChild);
+    startBackgroundScroll(track, cloneCount);
+  }
+
+  function startBackgroundScroll(track, cloneCount){
+    const speed = 60;
+    let loopDistance = 0;
+    let startTime = performance.now();
+    let animationFrame = null;
+    let isVisible = true;
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const videos = track.querySelectorAll('video');
+
+    function updateDistance(){
+      loopDistance = track.children[cloneCount]?.offsetLeft || track.scrollWidth / 2;
+      startTime = performance.now();
+    }
+
+    function setVideoPlayback(playing){
+      videos.forEach(video => {
+        if(playing) video.play().catch(()=>{});
+        else video.pause();
+      });
+    }
+
+    function scroll(now){
+      if(loopDistance > 0){
+        const offset = ((now - startTime) / 1000 * speed) % loopDistance;
+        track.style.transform = `translate3d(${-offset}px, 0, 0)`;
+      }
+      animationFrame = requestAnimationFrame(scroll);
+    }
+
+    function updatePlayback(){
+      const shouldAnimate = isVisible && !motionQuery.matches;
+      if(shouldAnimate && !animationFrame){
+        startTime = performance.now();
+        setVideoPlayback(true);
+        animationFrame = requestAnimationFrame(scroll);
+      } else if(!shouldAnimate && animationFrame){
+        cancelAnimationFrame(animationFrame);
+        animationFrame = null;
+        setVideoPlayback(false);
+        track.style.transform = 'translate3d(0, 0, 0)';
+      }
+    }
+
+    updateDistance();
+    window.addEventListener('resize', updateDistance);
+    if(motionQuery.addEventListener) motionQuery.addEventListener('change', updatePlayback);
+    const observer = new IntersectionObserver(entries => {
+      isVisible = entries[0].isIntersecting;
+      updatePlayback();
+    });
+    observer.observe(track);
+    updatePlayback();
   }
 
   // Option switching
