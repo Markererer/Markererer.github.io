@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>MBB Shift Calendar</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="MBB Shift Calendar is a Chrome extension for MBB Buddy Ride users that syncs assigned and available shifts to separate Google Calendars." />
+		<meta property="og:title" content="MBB Shift Calendar" />
+		<meta property="og:description" content="Sync MBB Buddy Ride shifts to separate Google Calendars without duplicate events." />
+		<link rel="canonical" href="https://aseev.ee/chrome-extensions/mbb-shift-calendar/" />
+		<link rel="stylesheet" href="../../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../../assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+		<div id="wrapper" class="fade-in">
+			<header id="header">
+				<a href="../../index.html" class="logo">MBB Shift Calendar</a>
+			</header>
+
+			<nav id="nav">
+				<ul class="links">
+					<li class="active"><a href="./">Extension</a></li>
+					<li><a href="../../privacy/mbb-shift-calendar/">Privacy</a></li>
+					<li><a href="../../index.html">Projects</a></li>
+				</ul>
+				<ul class="icons">
+					<li><a href="mailto:mr.assejev@gmail.com" class="icon solid fa-envelope"><span class="label">Support email</span></a></li>
+				</ul>
+			</nav>
+
+			<div id="main">
+				<section class="post">
+					<header class="major">
+						<span class="date">Chrome extension for MBB Buddy Ride</span>
+						<h1>MBB Shift Calendar</h1>
+						<p>Keep assigned and available MBB shifts visible in Google Calendar, with separate calendars for each type of shift.</p>
+						<ul class="actions special">
+							<li><a href="https://chromewebstore.google.com/detail/mbb-shift-calendar/jllfmahlaoonlcedbpffpkmaobgbnpmd" data-extension-link class="button primary">Install from Chrome Web Store</a></li>
+						</ul>
+					</header>
+
+					<h2>Overview</h2>
+					<p>MBB Shift Calendar is a Chrome extension for MBB Buddy Ride users. It reads assigned and available shifts from the MBB schedule and creates corresponding events in two separate Google Calendars:</p>
+					<ul>
+						<li><strong>MBB - Assigned Shifts</strong></li>
+						<li><strong>MBB - Available Shifts</strong></li>
+					</ul>
+					<p>The extension avoids creating duplicate events, shows sync progress, and reports errors when a sync cannot be completed.</p>
+
+					<h2>How it works</h2>
+					<ol>
+						<li>Enter your MBB login credentials in the extension.</li>
+						<li>Authorize Google Calendar access through Google OAuth.</li>
+						<li>Start a sync to read the MBB schedule and create or update the matching shift events.</li>
+					</ol>
+					<p>Calendar data is checked for existing matching events before new events are created. The extension shows progress during the sync and displays an error message if MBB or Google Calendar cannot be reached.</p>
+
+					<h2>Google Calendar access</h2>
+					<p>Google Calendar access is requested through Google OAuth. The extension uses Calendar data only to create shift events and check for duplicates in the two MBB shift calendars. It does not use that access for advertising, analytics, tracking, or any unrelated purpose.</p>
+
+					<h2>Privacy and data handling</h2>
+					<p>MBB login credentials are entered by the user. The email address may be stored locally if the user chooses the remember-login option. The password is stored locally only when the user explicitly enables that option; otherwise, the password is discarded after the sync.</p>
+					<p>MBB shift information is processed to create calendar events. The extension has no separate backend server. Data is communicated only with the MBB website and the Google Calendar API as needed for the stated functionality. The extension does not sell data, use data for advertising, or use analytics or tracking.</p>
+					<p>Read the full <a href="../../privacy/mbb-shift-calendar/">MBB Shift Calendar privacy policy</a>.</p>
+
+					<h2>Support/contact</h2>
+					<p>For support questions or privacy requests, contact <a href="mailto:mr.assejev@gmail.com">mr.assejev@gmail.com</a>.</p>
+				</section>
+			</div>
+
+			<footer id="footer">
+				<section class="split contact">
+					<section>
+						<h3>Support</h3>
+						<p><a href="mailto:mr.assejev@gmail.com">mr.assejev@gmail.com</a></p>
+					</section>
+					<section>
+						<h3>Privacy</h3>
+						<p><a href="../../privacy/mbb-shift-calendar/">Read the privacy policy</a></p>
+					</section>
+				</section>
+			</footer>
+			<div id="copyright"><ul><li>&copy; Mark Assejev</li></ul></div>
+		</div>
+
+		<script src="../../assets/js/jquery.min.js"></script>
+		<script src="../../assets/js/jquery.scrollex.min.js"></script>
+		<script src="../../assets/js/jquery.scrolly.min.js"></script>
+		<script src="../../assets/js/browser.min.js"></script>
+		<script src="../../assets/js/breakpoints.min.js"></script>
+		<script src="../../assets/js/util.js"></script>
+		<script src="../../assets/js/main.js"></script>
+		<script src="../../assets/js/mbb-shift-calendar-config.js"></script>
+	</body>
+</html>
