@@ -167,6 +167,11 @@ input, select, textarea {
 			border-bottom-color: transparent;
 		}
 
+
+						:focus-visible {
+							outline: 2px solid #ffffff;
+							outline-offset: -2px;
+						}
 	strong, b {
 		font-weight: 600;
 	}
@@ -3862,12 +3867,28 @@ input, select, textarea {
 			}
 
 			#main > .posts > article {
+				display: -moz-flex;
+				display: -webkit-flex;
+				display: -ms-flex;
+				display: flex;
+				-moz-flex-direction: column;
+				-webkit-flex-direction: column;
+				-ms-flex-direction: column;
+				flex-direction: column;
 				border-color: #eeeeee;
 				border-left-width: 2px;
 				border-style: solid;
 				border-top-width: 2px;
 				text-align: center;
 			}
+
+				#main > .posts > article > .actions.special {
+					margin-top: auto;
+				}
+
+				#main > .posts > article > .image.fit img {
+					height: auto;
+				}
 
 				#main > .posts > article > :last-child {
 					margin-bottom: 0;
