@@ -174,27 +174,19 @@
       }
       track.appendChild(item);
     });
-    // duplicate items for seamless loop
-    const cloneCount = track.children.length;
-    for(let i=0;i<cloneCount;i++){ track.appendChild(track.children[i].cloneNode(true)); }
     bg.appendChild(track);
     intro.insertBefore(bg, intro.firstChild);
-    startBackgroundScroll(track, cloneCount);
+    startBackgroundScroll(track);
   }
 
-  function startBackgroundScroll(track, cloneCount){
+  function startBackgroundScroll(track){
     const speed = 60;
-    let loopDistance = 0;
-    let startTime = performance.now();
+    let offset = 0;
+    let lastTime = performance.now();
     let animationFrame = null;
     let isVisible = true;
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     const videos = track.querySelectorAll('video');
-
-    function updateDistance(){
-      loopDistance = track.children[cloneCount]?.offsetLeft || track.scrollWidth / 2;
-      startTime = performance.now();
-    }
 
     function setVideoPlayback(playing){
       videos.forEach(video => {
@@ -204,17 +196,25 @@
     }
 
     function scroll(now){
-      if(loopDistance > 0){
-        const offset = ((now - startTime) / 1000 * speed) % loopDistance;
-        track.style.transform = `translate3d(${-offset}px, 0, 0)`;
+      const elapsed = Math.min(now - lastTime, 100);
+      lastTime = now;
+      offset += elapsed / 1000 * speed;
+
+      const firstItem = track.firstElementChild;
+      const firstItemWidth = firstItem?.getBoundingClientRect().width || 0;
+      if(firstItem && firstItemWidth > 0 && offset >= firstItemWidth){
+        offset -= firstItemWidth;
+        track.appendChild(firstItem);
       }
+
+      track.style.transform = `translate3d(${-offset}px, 0, 0)`;
       animationFrame = requestAnimationFrame(scroll);
     }
 
     function updatePlayback(){
       const shouldAnimate = isVisible && !motionQuery.matches;
       if(shouldAnimate && !animationFrame){
-        startTime = performance.now();
+        lastTime = performance.now();
         setVideoPlayback(true);
         animationFrame = requestAnimationFrame(scroll);
       } else if(!shouldAnimate && animationFrame){
@@ -225,8 +225,6 @@
       }
     }
 
-    updateDistance();
-    window.addEventListener('resize', updateDistance);
     if(motionQuery.addEventListener) motionQuery.addEventListener('change', updatePlayback);
     const observer = new IntersectionObserver(entries => {
       isVisible = entries[0].isIntersecting;
